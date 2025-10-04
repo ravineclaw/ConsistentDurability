@@ -20,7 +20,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.21.8-R0.1-SNAPSHOT")
 }
 
 tasks {
@@ -40,5 +40,5 @@ bukkitPluginYaml {
     main = "club.mcpvp.consistentdurability.ConsistentDurability"
     load = BukkitPluginYaml.PluginLoadOrder.STARTUP
     authors.add("Jyguy")
-    apiVersion = "1.21.4"
+    apiVersion = "1.21.8"
 }
