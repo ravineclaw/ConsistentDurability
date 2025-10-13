@@ -14,19 +14,28 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 public class PlayerItemDamageListener implements Listener {
+    private final ConsistentDurability plugin;
+
+    public PlayerItemDamageListener(ConsistentDurability plugin) {
+        this.plugin = plugin;
+    }
+
     @EventHandler
     public void onPlayerItemDamage(PlayerItemDamageEvent event) {
+        ItemStack item = event.getItem();
         // Damage calculation for elytra is handled in the main class
-        if (event.getItem().getType() == Material.ELYTRA) {
+        boolean isElytra = item.getType() == Material.ELYTRA;
+        if (isElytra && plugin.getConfig().getBoolean("elytra-durability-fix")) {
             event.setCancelled(true);
             return;
         }
 
+        if (!plugin.getConfig().getBoolean("unbreaking-rng-removal")) return;
+
         int originalDamage = event.getOriginalDamage();
         if (originalDamage <= 0) return;
 
-        ItemStack item = event.getItem();
-        if (!Tag.ITEMS_ENCHANTABLE_ARMOR.isTagged(item.getType())) return;
+        if (!Tag.ITEMS_ENCHANTABLE_ARMOR.isTagged(item.getType()) && !isElytra) return;
 
         int level = item.getEnchantmentLevel(Enchantment.UNBREAKING);
         if (level <= 0) return;
@@ -36,7 +45,7 @@ public class PlayerItemDamageListener implements Listener {
 
         int currentRawDamage = item.getDataOrDefault(DataComponentTypes.DAMAGE, 0);
         int currentRawDurability = maxDurability - currentRawDamage;
-        double damage = DamageCalc.calculateArmorDamage(originalDamage, level);
+        double damage = isElytra ? DamageCalc.calculateToolDamage(originalDamage, level) : DamageCalc.calculateArmorDamage(originalDamage, level);
         double currentDurability = DamageCalc.getCurrentDurability(item, maxDurability);
         double newDurability = currentDurability - damage;
 

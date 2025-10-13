@@ -1,0 +1,8 @@
+# Reduces the elytra durability by 0.05 (or lower if unbreaking enchant is present) every tick.
+# The unbreaking RNG removal for elytras is forcefully enabled if this is true.
+elytra-durability-fix: true
+
+# WARNING: This setting requires a custom server patch that enables PlayerItemDamageEvent to fire at 0 damage values.
+#          It will not work properly without this patch.
+# Removes the RNG aspect of the unbreaking enchant for armour and elytra.
+unbreaking-rng-removal: false

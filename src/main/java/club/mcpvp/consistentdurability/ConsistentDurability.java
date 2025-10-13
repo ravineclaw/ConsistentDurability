@@ -22,10 +22,13 @@ public class ConsistentDurability extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        scheduleElytraTimer();
+        saveDefaultConfig();
+        if (getConfig().getBoolean("elytra-durability-fix")) {
+            scheduleElytraTimer();
+        }
 
         PluginManager pm = getServer().getPluginManager();
-        pm.registerEvents(new PlayerItemDamageListener(), this);
+        pm.registerEvents(new PlayerItemDamageListener(this), this);
     }
 
     private void scheduleElytraTimer() {
