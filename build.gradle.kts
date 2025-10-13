@@ -20,10 +20,15 @@ repositories {
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.21.8-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.21.5-R0.1-SNAPSHOT")
 }
 
 tasks {
+    jar {
+        manifest {
+            attributes["paperweight-mappings-namespace"] = "mojang+yarn"
+        }
+    }
     compileJava {
         // Set the release flag. This configures what version bytecode the compiler will emit, as well as what JDK APIs are usable.
         // See https://openjdk.java.net/jeps/247 for more information.
@@ -40,5 +45,5 @@ bukkitPluginYaml {
     main = "club.mcpvp.consistentdurability.ConsistentDurability"
     load = BukkitPluginYaml.PluginLoadOrder.STARTUP
     authors.add("Jyguy")
-    apiVersion = "1.21.8"
+    apiVersion = "1.21.5"
 }

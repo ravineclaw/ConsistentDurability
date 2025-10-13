@@ -9,6 +9,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -46,7 +47,10 @@ public class ConsistentDurability extends JavaPlugin {
                 double newDurability = currentDurability - damage;
 
                 item.setData(DataComponentTypes.DAMAGE, maxDurability - (int) Math.ceil(newDurability));
-                item.editPersistentDataContainer(pdc -> pdc.set(DURABILITY_KEY, PersistentDataType.DOUBLE, newDurability));
+                item.editMeta(meta -> {
+                    PersistentDataContainer pdc = meta.getPersistentDataContainer();
+                    pdc.set(DURABILITY_KEY, PersistentDataType.DOUBLE, newDurability);
+                });
             }
         }, 1L, 1L);
     }

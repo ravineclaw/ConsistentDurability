@@ -10,6 +10,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerItemDamageEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 public class PlayerItemDamageListener implements Listener {
@@ -43,7 +44,8 @@ public class PlayerItemDamageListener implements Listener {
             event.setDamage(maxDurability);
         } else {
             event.setDamage(currentRawDurability - (int) Math.ceil(newDurability));
-            item.editPersistentDataContainer(pdc -> {
+            item.editMeta(meta -> {
+                PersistentDataContainer pdc = meta.getPersistentDataContainer();
                 pdc.set(ConsistentDurability.DURABILITY_KEY, PersistentDataType.DOUBLE, newDurability);
             });
         }
