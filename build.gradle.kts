@@ -28,6 +28,9 @@ tasks {
         manifest {
             attributes["paperweight-mappings-namespace"] = "mojang+yarn"
         }
+        from(rootDir) {
+            include("LICENSE")
+        }
     }
     compileJava {
         // Set the release flag. This configures what version bytecode the compiler will emit, as well as what JDK APIs are usable.
