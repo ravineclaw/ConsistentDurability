@@ -3,6 +3,7 @@ package club.mcpvp.consistentdurability;
 import club.mcpvp.consistentdurability.listeners.PlayerItemDamageListener;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
@@ -31,6 +32,7 @@ public class ConsistentDurability extends JavaPlugin {
         Bukkit.getScheduler().runTaskTimer(this, () -> {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 if (!player.isGliding()) continue;
+                if (player.getGameMode() == GameMode.CREATIVE || player.getGameMode() == GameMode.SPECTATOR) continue;
 
                 ItemStack item = player.getEquipment().getItem(EquipmentSlot.CHEST);
                 if (item.getType() != Material.ELYTRA) continue;
