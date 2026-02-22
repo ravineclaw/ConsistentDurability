@@ -25,6 +25,7 @@ public class PlayerItemDamageListener implements Listener {
         ItemStack item = event.getItem();
         // Damage calculation for elytra is handled in the main class
         boolean isElytra = item.getType() == Material.ELYTRA;
+        boolean isShield = item.getType() == Material.SHIELD;
         if (isElytra && plugin.getConfig().getBoolean("elytra-durability-fix")) {
             event.setCancelled(true);
             return;
@@ -35,7 +36,7 @@ public class PlayerItemDamageListener implements Listener {
         int originalDamage = event.getOriginalDamage();
         if (originalDamage <= 0) return;
 
-        if (!Tag.ITEMS_ENCHANTABLE_ARMOR.isTagged(item.getType()) && !isElytra) return;
+        if (!Tag.ITEMS_ENCHANTABLE_ARMOR.isTagged(item.getType()) && !isElytra && !isShield) return;
 
         int level = item.getEnchantmentLevel(Enchantment.UNBREAKING);
         if (level <= 0) return;
@@ -45,7 +46,9 @@ public class PlayerItemDamageListener implements Listener {
 
         int currentRawDamage = item.getDataOrDefault(DataComponentTypes.DAMAGE, 0);
         int currentRawDurability = maxDurability - currentRawDamage;
-        double damage = isElytra ? DamageCalc.calculateToolDamage(originalDamage, level) : DamageCalc.calculateArmorDamage(originalDamage, level);
+        double damage = (isElytra || isShield)
+            ? DamageCalc.calculateToolDamage(originalDamage, level)
+            : DamageCalc.calculateArmorDamage(originalDamage, level);
         double currentDurability = DamageCalc.getCurrentDurability(item, maxDurability);
         double newDurability = currentDurability - damage;
 

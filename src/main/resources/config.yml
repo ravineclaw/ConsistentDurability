@@ -4,5 +4,5 @@ elytra-durability-fix: true
 
 # WARNING: This setting requires a custom server patch that enables PlayerItemDamageEvent to fire at 0 damage values.
 #          It will not work properly without this patch.
-# Removes the RNG aspect of the unbreaking enchant for armour and elytra.
+# Removes the RNG aspect of the unbreaking enchant for armour, elytra, and shield.
 unbreaking-rng-removal: false
